@@ -9,10 +9,6 @@ export class InterceptedHttp extends Http {
         super(backend, defaultOptions);
     }
 
-    request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
-        return super.request(url, options);
-    }
-
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
         url = this.updateUrl(url);
         return super.get(url, this.getRequestOptionArgs(options));
@@ -33,13 +29,8 @@ export class InterceptedHttp extends Http {
         return super.delete(url, this.getRequestOptionArgs(options));
     }
     
-    private updateUrl(req: Request | string) {
-        var requestOrigin = environment.origin;
-        if(typeof req === 'string') {
-            return requestOrigin + req;
-        } else {
-            return requestOrigin + req.url;
-        }
+    private updateUrl(req: string) {
+        return  environment.origin + req;
     }
 
     private getRequestOptionArgs(options?: RequestOptionsArgs) : RequestOptionsArgs {
